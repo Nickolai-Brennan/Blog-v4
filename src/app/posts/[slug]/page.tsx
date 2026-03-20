@@ -8,15 +8,16 @@ import PostGrid from '@/components/blog/PostGrid';
 import { Calendar, User, ArrowLeft, Tag } from 'lucide-react';
 
 interface PostPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateStaticParams() {
   return mockPosts.filter(p => p.published).map(p => ({ slug: p.slug }));
 }
 
-export default function PostPage({ params }: PostPageProps) {
-  const post = mockPosts.find(p => p.slug === params.slug && p.published);
+export default async function PostPage({ params }: PostPageProps) {
+  const { slug } = await params;
+  const post = mockPosts.find(p => p.slug === slug && p.published);
 
   if (!post) {
     notFound();
