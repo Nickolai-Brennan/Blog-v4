@@ -8,7 +8,7 @@ import { Wind, Droplets, Thermometer, MapPin, Star } from 'lucide-react';
 
 const locations = ['Pebble Beach', 'Augusta', 'St Andrews'];
 
-const WIND_CHILL_FACTOR = 0.1;
+const SIMPLIFIED_WIND_FACTOR = 0.1;
 
 type ForecastDay = { day: string; high: number; low: number; conditions: string; wind: number };
 type WeatherItem = typeof mockWeather[0];
@@ -89,7 +89,7 @@ export default function ForecastPage() {
                 {[
                   { icon: Wind, label: 'Wind', value: `${weather.windSpeed} mph ${weather.windDir}` },
                   { icon: Droplets, label: 'Humidity', value: `${weather.humidity}%` },
-                  { icon: Thermometer, label: 'Feels Like', value: `${Math.round(weather.temperature - weather.windSpeed * WIND_CHILL_FACTOR)}°F` },
+                  { icon: Thermometer, label: 'Feels Like', value: `${Math.round(weather.temperature - weather.windSpeed * SIMPLIFIED_WIND_FACTOR)}°F` },
                 ].map(({ icon: Icon, label, value }) => (
                   <div key={label} className="bg-gray-50 rounded-lg p-3 text-center">
                     <Icon size={20} className="mx-auto text-green-600 mb-1" />

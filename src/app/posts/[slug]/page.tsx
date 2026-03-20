@@ -26,14 +26,23 @@ export default function PostPage({ params }: PostPageProps) {
     .filter(p => p.published && p.id !== post.id && p.category === post.category)
     .slice(0, 3);
 
+  function escapeHtml(text: string): string {
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
   const contentHtml = post.content
     .split('\n')
     .map(line => {
-      if (line.startsWith('# ')) return `<h1 class="text-3xl font-bold text-gray-900 mt-8 mb-4">${line.slice(2)}</h1>`;
-      if (line.startsWith('## ')) return `<h2 class="text-2xl font-bold text-gray-800 mt-6 mb-3">${line.slice(3)}</h2>`;
-      if (line.startsWith('### ')) return `<h3 class="text-xl font-semibold text-gray-800 mt-4 mb-2">${line.slice(4)}</h3>`;
+      if (line.startsWith('# ')) return `<h1 class="text-3xl font-bold text-gray-900 mt-8 mb-4">${escapeHtml(line.slice(2))}</h1>`;
+      if (line.startsWith('## ')) return `<h2 class="text-2xl font-bold text-gray-800 mt-6 mb-3">${escapeHtml(line.slice(3))}</h2>`;
+      if (line.startsWith('### ')) return `<h3 class="text-xl font-semibold text-gray-800 mt-4 mb-2">${escapeHtml(line.slice(4))}</h3>`;
       if (line.trim() === '') return '<br />';
-      return `<p class="text-gray-700 leading-relaxed mb-4">${line}</p>`;
+      return `<p class="text-gray-700 leading-relaxed mb-4">${escapeHtml(line)}</p>`;
     })
     .join('');
 
