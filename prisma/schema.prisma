@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  excerpt     String
+  content     String
+  coverImage  String?
+  category    String
+  tags        String[]
+  author      String
+  publishedAt DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  featured    Boolean  @default(false)
+  published   Boolean  @default(false)
+}
+
+model GolfStat {
+  id         String   @id @default(cuid())
+  playerId   String
+  playerName String
+  holes      Int
+  score      Int
+  par        Int
+  handicap   Float
+  course     String
+  roundDate  DateTime
+  createdAt  DateTime @default(now())
+}
+
+model WeatherData {
+  id          String   @id @default(cuid())
+  location    String
+  temperature Float
+  windSpeed   Float
+  windDir     String
+  humidity    Float
+  conditions  String
+  forecast    Json
+  recordedAt  DateTime @default(now())
+}
+
+model VipMember {
+  id       String   @id @default(cuid())
+  name     String
+  email    String   @unique
+  handicap Float?
+  joinedAt DateTime @default(now())
+  active   Boolean  @default(true)
+}
+
+model LeagueRound {
+  id         String   @id @default(cuid())
+  leagueName String
+  playerId   String
+  playerName String
+  score      Int
+  points     Int
+  roundDate  DateTime
+  course     String
+  createdAt  DateTime @default(now())
+}
